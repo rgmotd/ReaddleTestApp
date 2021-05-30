@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.transition.TransitionManager
 import com.example.readdletestapp.ui.adapters.MainAdapter
 import com.example.readdletestapp.data.MainRepository
 import com.example.readdletestapp.R
@@ -57,7 +56,8 @@ class HomeFragment : Fragment() {
             val layoutManager = binding.rvItems.layoutManager!! as GridLayoutManager
             val items = rvAdapter.items
             val onItemClickListener = rvAdapter.onItemClickCallback
-            TransitionManager.endTransitions(binding.rvItems)
+
+            // changing adapter every time layout changes
             rvAdapter = MainAdapter(!rvAdapter.layoutState)
             rvAdapter.setHasStableIds(true)
             rvAdapter.items = items
@@ -69,15 +69,14 @@ class HomeFragment : Fragment() {
                     toolbar.menu.clear()
                     toolbar.inflateMenu(R.menu.list_menu)
                     layoutManager.spanCount = 1
-                    rvAdapter.notifyItemRangeChanged(0, rvAdapter.itemCount)
+                    toolbar.title = "List items"
                     true
                 }
                 R.id.list_item -> {
                     toolbar.menu.clear()
                     toolbar.inflateMenu(R.menu.grid_menu)
-                    layoutManager.spanCount = 3
+                    layoutManager.spanCount = 5
                     toolbar.title = "Grid items"
-                    rvAdapter.notifyItemRangeChanged(0, rvAdapter.itemCount)
                     true
                 }
                 else -> false

@@ -11,7 +11,9 @@ class MainRepository {
         val list = items.toMutableList()
         val rand = Random(System.currentTimeMillis())
         val switch = rand.nextBoolean()
-        repeat(rand.nextInt(5, 15)) {
+        val range = rand.nextInt(5, 15)
+
+        if (list.size > range) repeat(range) {
             if (switch) list.removeAt(rand.nextInt(list.size))
             else {
                 val pos = rand.nextLong(list.size.toLong())
@@ -25,7 +27,6 @@ class MainRepository {
                     )
                 )
             }
-
         }
         return list
     }
@@ -33,7 +34,8 @@ class MainRepository {
 
     suspend fun generateData(size: Int): List<Item> {
         val list = mutableListOf<Item>()
-        for (i in 0 until size) {
+        list.add(Item(0, "Jack Jones", IMG_URLS[Random.nextInt(until = IMG_URLS.size - 1)], true))
+        for (i in 1 until size) {
             list += Item(
                 imageUrl = IMG_URLS[Random.nextInt(until = IMG_URLS.size - 1)],
                 text = "${NAMES[Random.nextInt(until = NAMES.size - 1)]} ${SURNAMES[Random.nextInt(until = SURNAMES.size - 1)]}",
